@@ -1,7 +1,16 @@
 from fastapi import FastAPI
+from fastapi.routing import APIRoute
 
-app = FastAPI()
+from api.main import api_router
+from core.config import settings
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello, World!"}
+def custom_generate_unique_id(route: APIRoute) -> str:
+    return f"{route.tags[0]}-{route.name}"
+
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
+    generate_unique_id_function=custom_generate_unique_id,
+)
+
+app.include_router(api_router, prefix=settings.API_V1_STR)
