@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from sqlmodel import col, func, select
 
 from api.deps import (
@@ -8,6 +8,7 @@ from api.deps import (
 from models import (
     User,
     UsersPublic,
+    UserPublic
 )
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -27,3 +28,13 @@ def read_users(session: SessionDep, skip: int = 0, limit: int = 100):
     users = session.exec(statement).all()
 
     return UsersPublic(data=users, count=count)
+
+@router.get("/{user_id}", response_model=UserPublic)
+def read_user_by_id(user_id: int, session: SessionDep):
+    """
+    Get a specific user by id.
+    """
+    user = session.get(User, user_id)
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
