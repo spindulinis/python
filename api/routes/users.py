@@ -4,9 +4,10 @@ from sqlmodel import col, func, select
 from api.deps import (
     SessionDep,
 )
-
+import crud
 from models import (
     User,
+    UserCreate,
     UsersPublic,
     UserPublic
 )
@@ -37,4 +38,19 @@ def read_user_by_id(user_id: int, session: SessionDep):
     user = session.get(User, user_id)
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
+    return user
+
+@router.post("/", response_model=UserPublic)
+def create_user(*, session: SessionDep, user_in: UserCreate):
+    """
+    Create new user.
+    """
+    user = crud.get_user_by_email(session=session, email=user_in.email)
+    if user:
+        raise HTTPException(
+            status_code=400,
+            detail="The user with this email already exists in the system.",
+        )
+
+    user = crud.create_user(session=session, user_create=user_in)
     return user

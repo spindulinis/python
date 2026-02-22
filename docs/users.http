@@ -1,0 +1,17 @@
+### GET user
+GET http://127.0.0.1:8000/api/v1/users/
+
+### GET user
+GET http://127.0.0.1:8000/api/v1/users/15
+
+### Create a new user
+POST http://127.0.0.1:8000/api/v1/users
+Content-Type: application/json
+
+{
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john1@doe.com",
+    "password": "s3cr3tAndLong",
+    "role": "user"
+}
