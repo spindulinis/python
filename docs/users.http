@@ -15,3 +15,7 @@ Content-Type: application/json
     "password": "s3cr3tAndLong",
     "role": "user"
 }
+
+### DELETE user
+
+DELETE http://127.0.0.1:8000/api/v1/users/17

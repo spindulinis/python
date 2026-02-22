@@ -9,7 +9,8 @@ from models import (
     User,
     UserCreate,
     UsersPublic,
-    UserPublic
+    UserPublic,
+    Message
 )
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -54,3 +55,15 @@ def create_user(*, session: SessionDep, user_in: UserCreate):
 
     user = crud.create_user(session=session, user_create=user_in)
     return user
+
+@router.delete("/{user_id}")
+def delete_user(session: SessionDep, user_id: int):
+    """
+    Delete a user.
+    """
+    user = session.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    session.delete(user)
+    session.commit()
+    return Message(message="User deleted successfully")
