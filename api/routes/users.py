@@ -5,14 +5,13 @@ from api.deps import (
     SessionDep,
 )
 import crud
-from models import (
-    User,
-    UserCreate,
-    UserUpdate,
-    UsersPublic,
-    UserPublic,
-    Message
-)
+from models.base import Message
+from models.user import User
+from models.user_create import UserCreate
+from models.user_public import UserPublic
+from models.user_update import UserUpdate
+from models.users_public import UsersPublic
+
 
 router = APIRouter(prefix="/users", tags=["users"])
 

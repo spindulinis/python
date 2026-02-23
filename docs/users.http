@@ -11,7 +11,7 @@ Content-Type: application/json
 {
     "first_name": "John",
     "last_name": "Doe",
-    "email": "john1@doe.com",
+    "email": "john2@doe.com",
     "password": "s3cr3tAndLong",
     "role": "user"
 }
@@ -21,7 +21,7 @@ PATCH http://127.0.0.1:8000/api/v1/users/18
 Content-Type: application/json
 
 {
-    "first_name": "Johnny",
+    "first_name": "Johnny2",
     "last_name": "Doe",
     "email": "john1@doe.com",
     "password": "s3cr3tAndLong",
@@ -30,4 +30,4 @@ Content-Type: application/json
 
 ### DELETE user
 
-DELETE http://127.0.0.1:8000/api/v1/users/17
+DELETE http://127.0.0.1:8000/api/v1/users/18
