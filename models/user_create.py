@@ -1,5 +1,5 @@
-from models.base import UserBase
 from sqlmodel import Field
+from models.user_base import UserBase
 
 
 class UserCreate(UserBase):

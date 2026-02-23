@@ -3,7 +3,8 @@ from datetime import datetime
 from sqlalchemy import DateTime
 from sqlmodel import Field
 
-from models.base import UserBase, get_datetime_utc
+from models.base import get_datetime_utc
+from models.user_base import UserBase
 
 class User(UserBase, table=True):
     id: int | None = Field(default=None, primary_key=True)

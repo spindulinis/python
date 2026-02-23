@@ -1,7 +1,6 @@
-from models.base import UserBase
 from sqlmodel import Field
 from pydantic import EmailStr
-
+from models.user_base import UserBase
 
 class UserUpdate(UserBase):
     email: EmailStr | None = Field(default=None, max_length=255)  # type: ignore
