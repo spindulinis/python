@@ -16,6 +16,18 @@ Content-Type: application/json
     "role": "user"
 }
 
+### PATCH user
+PATCH http://127.0.0.1:8000/api/v1/users/18
+Content-Type: application/json
+
+{
+    "first_name": "Johnny",
+    "last_name": "Doe",
+    "email": "john1@doe.com",
+    "password": "s3cr3tAndLong",
+    "role": "user"
+}
+
 ### DELETE user
 
 DELETE http://127.0.0.1:8000/api/v1/users/17

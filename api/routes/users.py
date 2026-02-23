@@ -8,6 +8,7 @@ import crud
 from models import (
     User,
     UserCreate,
+    UserUpdate,
     UsersPublic,
     UserPublic,
     Message
@@ -55,6 +56,21 @@ def create_user(*, session: SessionDep, user_in: UserCreate):
 
     user = crud.create_user(session=session, user_create=user_in)
     return user
+
+@router.patch("/{user_id}",response_model=UserPublic,)
+def update_user(*, session: SessionDep, user_id: int, user_in: UserUpdate):
+    """
+    Update a user.
+    """
+
+    db_user = session.get(User, user_id)
+    if not db_user:
+        raise HTTPException(
+            status_code=404,
+            detail="The user with this id does not exist in the system",
+        )
+    db_user = crud.update_user(session=session, db_user=db_user, user_in=user_in)
+    return db_user
 
 @router.delete("/{user_id}")
 def delete_user(session: SessionDep, user_id: int):
