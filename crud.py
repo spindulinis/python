@@ -6,6 +6,7 @@ from sqlmodel import Session, select
 from core.security import get_password_hash, verify_password
 from models.product import Product
 from models.product_create import ProductCreate
+from models.product_update import ProductUpdate
 from models.user import User
 from models.user_create import UserCreate
 from models.user_update import UserUpdate
@@ -68,3 +69,12 @@ def create_product(*, session: Session, product_create: ProductCreate) -> Produc
     session.commit()
     session.refresh(db_obj)
     return db_obj
+
+def update_product(*, session: Session, db_product: Product, product_in: ProductUpdate) -> Any:
+    product_data = product_in.model_dump(exclude_unset=True)
+    extra_data = {}
+    db_product.sqlmodel_update(product_data, update=extra_data)
+    session.add(db_product)
+    session.commit()
+    session.refresh(db_product)
+    return db_product

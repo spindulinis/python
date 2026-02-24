@@ -8,6 +8,7 @@ import crud
 from models.product import Product
 from models.product_create import ProductCreate
 from models.product_public import ProductPublic
+from models.product_update import ProductUpdate
 from models.products_public import ProductsPublic
 
 
@@ -46,3 +47,18 @@ def create_product(*, session: SessionDep, product_in: ProductCreate):
     """
     product = crud.create_product(session=session, product_create=product_in)
     return product
+
+@router.patch("/{product_id}",response_model=ProductPublic)
+def update_user(*, session: SessionDep, product_id: int, product_in: ProductUpdate):
+    """
+    Update a product.
+    """
+
+    db_product = session.get(Product, product_id)
+    if not db_product:
+        raise HTTPException(
+            status_code=404,
+            detail="The product with this id does not exist in the system",
+        )
+    db_product = crud.update_product(session=session, db_product=db_product, product_in=product_in)
+    return db_product
