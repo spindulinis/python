@@ -5,6 +5,7 @@ from api.deps import (
     SessionDep,
 )
 import crud
+from models.base import Message
 from models.product import Product
 from models.product_create import ProductCreate
 from models.product_public import ProductPublic
@@ -49,7 +50,7 @@ def create_product(*, session: SessionDep, product_in: ProductCreate):
     return product
 
 @router.patch("/{product_id}",response_model=ProductPublic)
-def update_user(*, session: SessionDep, product_id: int, product_in: ProductUpdate):
+def update_product(*, session: SessionDep, product_id: int, product_in: ProductUpdate):
     """
     Update a product.
     """
@@ -62,3 +63,15 @@ def update_user(*, session: SessionDep, product_id: int, product_in: ProductUpda
         )
     db_product = crud.update_product(session=session, db_product=db_product, product_in=product_in)
     return db_product
+
+@router.delete("/{product_id}")
+def delete_product(session: SessionDep, product_id: int):
+    """
+    Delete a product.
+    """
+    product = session.get(Product, product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    session.delete(product)
+    session.commit()
+    return Message(message="Product deleted successfully")

@@ -21,3 +21,7 @@ Content-Type: application/json
     "title": "Apple pie 2",
     "description": "Big apple pie 2"
 }
+
+### DELETE product
+
+DELETE http://127.0.0.1:8000/api/v1/products/23
