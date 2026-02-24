@@ -6,9 +6,12 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.129.0",
+    "httpx>=0.28.1",
     "jwt>=1.4.0",
     "mysqlclient>=2.2.8",
     "psycopg[binary]>=3.3.3",
     "pwdlib[argon2,bcrypt]>=0.3.0",
+    "pytest>=9.0.2",
+    "sqlalchemy-utils>=0.42.1",
     "sqlmodel>=0.0.34",
 ]
