@@ -4,7 +4,7 @@ from sqlmodel import col, func, select
 from api.deps import (
     SessionDep,
 )
-import crud
+from crud import product as product_crud
 from models.base import Message
 from models.product import Product
 from models.product_create import ProductCreate
@@ -46,7 +46,7 @@ def create_product(*, session: SessionDep, product_in: ProductCreate):
     """
     Create new product.
     """
-    product = crud.create_product(session=session, product_create=product_in)
+    product = product_crud.create_product(session=session, product_create=product_in)
     return product
 
 @router.patch("/{product_id}",response_model=ProductPublic)
@@ -61,7 +61,7 @@ def update_product(*, session: SessionDep, product_id: int, product_in: ProductU
             status_code=404,
             detail="The product with this id does not exist in the system",
         )
-    db_product = crud.update_product(session=session, db_product=db_product, product_in=product_in)
+    db_product = product_crud.update_product(session=session, db_product=db_product, product_in=product_in)
     return db_product
 
 @router.delete("/{product_id}")

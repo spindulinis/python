@@ -4,7 +4,7 @@ from sqlmodel import col, func, select
 from api.deps import (
     SessionDep,
 )
-import crud
+from crud import user as user_crud
 from models.base import Message
 from models.user import User
 from models.user_create import UserCreate
@@ -46,14 +46,14 @@ def create_user(*, session: SessionDep, user_in: UserCreate):
     """
     Create new user.
     """
-    user = crud.get_user_by_email(session=session, email=user_in.email)
+    user = user_crud.get_user_by_email(session=session, email=user_in.email)
     if user:
         raise HTTPException(
             status_code=400,
             detail="The user with this email already exists in the system.",
         )
 
-    user = crud.create_user(session=session, user_create=user_in)
+    user = user_crud.create_user(session=session, user_create=user_in)
     return user
 
 @router.patch("/{user_id}",response_model=UserPublic,)
@@ -68,7 +68,7 @@ def update_user(*, session: SessionDep, user_id: int, user_in: UserUpdate):
             status_code=404,
             detail="The user with this id does not exist in the system",
         )
-    db_user = crud.update_user(session=session, db_user=db_user, user_in=user_in)
+    db_user = user_crud.update_user(session=session, db_user=db_user, user_in=user_in)
     return db_user
 
 @router.delete("/{user_id}")

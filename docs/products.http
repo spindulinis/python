@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ### PATCH product
-PATCH http://127.0.0.1:8000/api/v1/products/23
+PATCH http://127.0.0.1:8000/api/v1/products/24
 Content-Type: application/json
 
 {
