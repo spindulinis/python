@@ -4,6 +4,8 @@ from typing import Any
 from sqlmodel import Session, select
 
 from core.security import get_password_hash, verify_password
+from models.product import Product
+from models.product_create import ProductCreate
 from models.user import User
 from models.user_create import UserCreate
 from models.user_update import UserUpdate
@@ -59,3 +61,10 @@ def authenticate(*, session: Session, email: str, password: str) -> User | None:
         session.commit()
         session.refresh(db_user)
     return db_user
+
+def create_product(*, session: Session, product_create: ProductCreate) -> Product:
+    db_obj = Product.model_validate(product_create)
+    session.add(db_obj)
+    session.commit()
+    session.refresh(db_obj)
+    return db_obj

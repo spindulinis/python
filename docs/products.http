@@ -3,3 +3,12 @@ GET http://127.0.0.1:8000/api/v1/products/
 
 ### GET product
 GET http://127.0.0.1:8000/api/v1/products/22
+
+### POST product
+POST http://127.0.0.1:8000/api/v1/products
+Content-Type: application/json
+
+{
+    "title": "Apple pie",
+    "description": "Big apple pie"
+}

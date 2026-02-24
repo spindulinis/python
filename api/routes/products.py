@@ -4,7 +4,9 @@ from sqlmodel import col, func, select
 from api.deps import (
     SessionDep,
 )
+import crud
 from models.product import Product
+from models.product_create import ProductCreate
 from models.product_public import ProductPublic
 from models.products_public import ProductsPublic
 
@@ -35,4 +37,12 @@ def read_product_by_id(product_id: int, session: SessionDep):
     product = session.get(Product, product_id)
     if product is None:
         raise HTTPException(status_code=404, detail="Product not found")
+    return product
+
+@router.post("/", response_model=ProductPublic)
+def create_product(*, session: SessionDep, product_in: ProductCreate):
+    """
+    Create new product.
+    """
+    product = crud.create_product(session=session, product_create=product_in)
     return product
