@@ -1,9 +1,12 @@
 # FastAPI
 
-This is a high-performance backend API for managing users, integrated with a MySQL database running in Docker.
+This is a backend API for managing users, integrated with a MySQL database running in Docker.
 
-Project entities:
+Entities:
 - User
+- Product
+
+This should work with [spindulinis/remix](https://github.com/spindulinis/remix) frontend.
 
 ### To start the application
 
