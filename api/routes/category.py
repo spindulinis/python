@@ -9,6 +9,7 @@ from models.categories_public import CategoriesPublic
 from models.category import Category
 from models.category_create import CategoryCreate
 from models.category_public import CategoryPublic
+from models.category_update import CategoryUpdate
 from models.products_public import ProductsPublic
 
 
@@ -47,3 +48,18 @@ def create_category(*, session: SessionDep, category_in: CategoryCreate):
     """
     category = category_crud.create_category(session=session, category_create=category_in)
     return category
+
+@router.patch("/{category_id}",response_model=CategoryPublic)
+def update_category(*, session: SessionDep, category_id: int, category_in: CategoryUpdate):
+    """
+    Update a category.
+    """
+
+    db_category = session.get(Category, category_id)
+    if not db_category:
+        raise HTTPException(
+            status_code=404,
+            detail="The category with this id does not exist in the system",
+        )
+    db_category = category_crud.update_category(session=session, db_category=db_category, category_in=category_in)
+    return db_category

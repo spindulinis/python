@@ -13,3 +13,13 @@ Content-Type: application/json
     "description": "Fruits category",
     "order": 200
 }
+
+### PATCH category
+PATCH http://127.0.0.1:8000/api/v1/categories/22
+Content-Type: application/json
+
+{
+    "title": "Fruits 2",
+    "description": "Fruits category 2",
+    "order": 2000
+}
