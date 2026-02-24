@@ -7,6 +7,7 @@ from api.deps import (
 from crud import category as category_crud
 from models.categories_public import CategoriesPublic
 from models.category import Category
+from models.category_create import CategoryCreate
 from models.category_public import CategoryPublic
 from models.products_public import ProductsPublic
 
@@ -37,4 +38,12 @@ def read_category_by_id(category_id: int, session: SessionDep):
     category = session.get(Category, category_id)
     if category is None:
         raise HTTPException(status_code=404, detail="Category not found")
+    return category
+
+@router.post("/", response_model=CategoryPublic)
+def create_category(*, session: SessionDep, category_in: CategoryCreate):
+    """
+    Create new category.
+    """
+    category = category_crud.create_category(session=session, category_create=category_in)
     return category
