@@ -5,6 +5,7 @@ This is a backend API for managing users, integrated with a MySQL database runni
 Entities:
 - User
 - Product
+- Category
 
 This should work with [spindulinis/remix](https://github.com/spindulinis/remix) frontend.
 
