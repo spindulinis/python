@@ -5,6 +5,7 @@ from api.deps import (
     SessionDep,
 )
 from crud import category as category_crud
+from models.base import Message
 from models.categories_public import CategoriesPublic
 from models.category import Category
 from models.category_create import CategoryCreate
@@ -63,3 +64,15 @@ def update_category(*, session: SessionDep, category_id: int, category_in: Categ
         )
     db_category = category_crud.update_category(session=session, db_category=db_category, category_in=category_in)
     return db_category
+
+@router.delete("/{category_id}")
+def delete_category(session: SessionDep, category_id: int):
+    """
+    Delete a category.
+    """
+    category = session.get(Category, category_id)
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    session.delete(category)
+    session.commit()
+    return Message(message="Category deleted successfully")

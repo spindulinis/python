@@ -23,3 +23,7 @@ Content-Type: application/json
     "description": "Fruits category 2",
     "order": 2000
 }
+
+### DELETE category
+
+DELETE http://127.0.0.1:8000/api/v1/categories/22
