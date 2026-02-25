@@ -5,6 +5,7 @@ from sqlalchemy import DateTime
 from sqlmodel import Field, Relationship
 
 from models.base import get_datetime_utc
+from models.product_attribute import ProductAttribute
 from models.product_base import ProductBase
 from models.product_category import ProductCategory
 
@@ -22,4 +23,9 @@ class Product(ProductBase, table=True):
     categories: List["Category"] = Relationship( # type: ignore
         back_populates="products", 
         link_model=ProductCategory
+    )
+
+    attributes: List["Attribute"] = Relationship( # type: ignore
+        back_populates="products", 
+        link_model=ProductAttribute
     )
