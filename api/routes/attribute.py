@@ -6,6 +6,7 @@ from api.deps import (
 )
 from crud import attribute as attribute_crud
 
+from models.base import Message
 from models.attribute import Attribute
 from models.attribute_create import AttributeCreate
 from models.attribute_public import AttributePublic
@@ -63,3 +64,15 @@ def update_attribute(*, session: SessionDep, attribute_id: int, attribute_in: At
         )
     db_attribute = attribute_crud.update_attribute(session=session, db_attribute=db_attribute, attribute_in=attribute_in)
     return db_attribute
+
+@router.delete("/{attribute_id}")
+def delete_attribute(session: SessionDep, attribute_id: int):
+    """
+    Delete a category.
+    """
+    attribute = session.get(Attribute, attribute_id)
+    if not attribute:
+        raise HTTPException(status_code=404, detail="Attribute not found")
+    session.delete(attribute)
+    session.commit()
+    return Message(message="Attribute deleted successfully")
