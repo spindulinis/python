@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlmodel import Column, Field, SQLModel, Text
 
 class CategoryBase(SQLModel):
@@ -7,3 +9,4 @@ class CategoryBase(SQLModel):
         default=None, 
         sa_column=Column(Text)
     )
+    parent_id: Optional[int] = Field(default=None, foreign_key="category.id")
