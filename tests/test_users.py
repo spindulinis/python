@@ -37,6 +37,24 @@ def test_read_user_by_id(client: TestClient):
     assert data["first_name"] == "John"
     assert data["last_name"] == "Doe"
 
+def test_create_user(client: TestClient):
+    response = client.post(
+        "/api/v1/users/",
+        json={
+            "email": "single@example.com",
+            "password": "password123",
+            "first_name": "John",
+            "last_name": "Doe",
+        },
+    )
+
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert isinstance(data["id"], int)
+    assert data["email"] == "single@example.com"
+    assert data["first_name"] == "John"
+    assert data["last_name"] == "Doe"
+
 def test_create_user_flow(client: TestClient):
     response = client.post(
         "/api/v1/users/",
