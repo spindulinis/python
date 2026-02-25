@@ -1,0 +1,10 @@
+### POST authentication
+POST http://127.0.0.1:8000/api/v1/authentication/sign-up
+Content-Type: application/json
+
+{
+    "first_name": "Johny",
+    "last_name": "Doee",
+    "email": "johny@doeee.com",
+    "password": "s3cr3tLongPassword"
+}
