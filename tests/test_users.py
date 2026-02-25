@@ -16,6 +16,27 @@ def test_read_users(client: TestClient):
     assert data["count"] == 3      
     assert len(data["data"]) == 1
 
+def test_read_user_by_id(client: TestClient):
+    create_response = client.post(
+        "/api/v1/users/",
+        json={
+            "email": "single@example.com",
+            "password": "password123",
+            "first_name": "John",
+            "last_name": "Doe",
+        },
+    )
+    user_id = create_response.json()["id"]
+
+    response = client.get(f"/api/v1/users/{user_id}")
+    
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert data["id"] == user_id
+    assert data["email"] == "single@example.com"
+    assert data["first_name"] == "John"
+    assert data["last_name"] == "Doe"
+
 def test_create_user_flow(client: TestClient):
     response = client.post(
         "/api/v1/users/",
