@@ -55,6 +55,35 @@ def test_create_user(client: TestClient):
     assert data["first_name"] == "John"
     assert data["last_name"] == "Doe"
 
+def test_update_user(client: TestClient):
+    create_response = client.post(
+        "/api/v1/users/",
+        json={
+            "email": "single@example.com",
+            "password": "password123",
+            "first_name": "John",
+            "last_name": "Doe",
+        },
+    )
+    user_id = create_response.json()["id"]
+
+    response = client.patch(
+        f"/api/v1/users/{user_id}",
+        json={
+            "email": "single@example.com",
+            "password": "password123",
+            "first_name": "John2",
+            "last_name": "Doe2",
+        },
+    )
+
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert isinstance(data["id"], int)
+    assert data["email"] == "single@example.com"
+    assert data["first_name"] == "John2"
+    assert data["last_name"] == "Doe2"
+
 def test_create_user_flow(client: TestClient):
     response = client.post(
         "/api/v1/users/",
