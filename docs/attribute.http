@@ -3,3 +3,11 @@ GET http://127.0.0.1:8000/api/v1/attribute/
 
 ### GET attribute
 GET http://127.0.0.1:8000/api/v1/attribute/1
+
+### POST attribute
+POST http://127.0.0.1:8000/api/v1/attribute
+Content-Type: application/json
+
+{
+    "title": "Weight"
+}

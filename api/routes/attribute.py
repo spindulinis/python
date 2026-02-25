@@ -7,6 +7,7 @@ from api.deps import (
 from crud import attribute as attribute_crud
 
 from models.attribute import Attribute
+from models.attribute_create import AttributeCreate
 from models.attribute_public import AttributePublic
 from models.attributes_public import AttributesPublic
 
@@ -37,4 +38,12 @@ def read_category_by_id(attribute_id: int, session: SessionDep):
     attribute = session.get(Attribute, attribute_id)
     if attribute is None:
         raise HTTPException(status_code=404, detail="Attribute not found")
+    return attribute
+
+@router.post("/", response_model=AttributePublic)
+def create_attribute(*, session: SessionDep, attribute_in: AttributeCreate):
+    """
+    Create new attribute.
+    """
+    attribute = attribute_crud.create_attribute(session=session, attribute_create=attribute_in)
     return attribute
