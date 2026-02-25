@@ -30,7 +30,7 @@ def read_products(session: SessionDep, skip: int = 0, limit: int = 100):
     )
     categories = session.exec(statement).all()
 
-    return ProductsPublic(data=categories, count=count)
+    return CategoriesPublic(data=categories, count=count)
 
 @router.get("/{category_id}", response_model=CategoryPublic)
 def read_category_by_id(category_id: int, session: SessionDep):
