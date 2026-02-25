@@ -11,13 +11,12 @@ from models.category import Category
 from models.category_create import CategoryCreate
 from models.category_public import CategoryPublic
 from models.category_update import CategoryUpdate
-from models.products_public import ProductsPublic
 
 
 router = APIRouter(prefix="/categories", tags=["categories"])
 
 @router.get("/", response_model=CategoriesPublic)
-def read_products(session: SessionDep, skip: int = 0, limit: int = 100):
+def read_categories(session: SessionDep, skip: int = 0, limit: int = 100):
     """
     Retrieve categories.
     """
