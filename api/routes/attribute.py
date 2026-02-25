@@ -68,7 +68,7 @@ def update_attribute(*, session: SessionDep, attribute_id: int, attribute_in: At
 @router.delete("/{attribute_id}")
 def delete_attribute(session: SessionDep, attribute_id: int):
     """
-    Delete a category.
+    Delete a attribute.
     """
     attribute = session.get(Attribute, attribute_id)
     if not attribute:
