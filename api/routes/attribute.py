@@ -9,6 +9,7 @@ from crud import attribute as attribute_crud
 from models.attribute import Attribute
 from models.attribute_create import AttributeCreate
 from models.attribute_public import AttributePublic
+from models.attribute_update import AttributeUpdate
 from models.attributes_public import AttributesPublic
 
 
@@ -47,3 +48,18 @@ def create_attribute(*, session: SessionDep, attribute_in: AttributeCreate):
     """
     attribute = attribute_crud.create_attribute(session=session, attribute_create=attribute_in)
     return attribute
+
+@router.patch("/{attribute_id}",response_model=AttributePublic)
+def update_attribute(*, session: SessionDep, attribute_id: int, attribute_in: AttributeUpdate):
+    """
+    Update a attribute.
+    """
+
+    db_attribute = session.get(Attribute, attribute_id)
+    if not db_attribute:
+        raise HTTPException(
+            status_code=404,
+            detail="The attribute with this id does not exist in the system",
+        )
+    db_attribute = attribute_crud.update_attribute(session=session, db_attribute=db_attribute, attribute_in=attribute_in)
+    return db_attribute

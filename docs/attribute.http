@@ -11,3 +11,11 @@ Content-Type: application/json
 {
     "title": "Weight"
 }
+
+### PATCH attribute
+PATCH http://127.0.0.1:8000/api/v1/attribute/4
+Content-Type: application/json
+
+{
+    "title": "Weight 2"
+}
