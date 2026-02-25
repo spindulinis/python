@@ -5,7 +5,7 @@ def test_read_users(client: TestClient):
     client.post(
         "/api/v1/users/",
         json={
-            "email": "single@example.com",
+            "email": "john@doe.com",
             "password": "password123",
             "first_name": "John",
             "last_name": "Doe",
@@ -21,7 +21,7 @@ def test_read_users(client: TestClient):
     result = data["data"][0]
 
     assert isinstance(result["id"], int)
-    assert result["email"] == "single@example.com"
+    assert result["email"] == "john@doe.com"
     assert result["first_name"] == "John"
     assert result["last_name"] == "Doe"
 
@@ -29,7 +29,7 @@ def test_read_user_by_id(client: TestClient):
     create_response = client.post(
         "/api/v1/users/",
         json={
-            "email": "single@example.com",
+            "email": "john@doe.com",
             "password": "password123",
             "first_name": "John",
             "last_name": "Doe",
@@ -42,7 +42,7 @@ def test_read_user_by_id(client: TestClient):
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
     assert result["id"] == user_id
-    assert result["email"] == "single@example.com"
+    assert result["email"] == "john@doe.com"
     assert result["first_name"] == "John"
     assert result["last_name"] == "Doe"
 
@@ -50,7 +50,7 @@ def test_create_user(client: TestClient):
     response = client.post(
         "/api/v1/users/",
         json={
-            "email": "single@example.com",
+            "email": "john@doe.com",
             "password": "password123",
             "first_name": "John",
             "last_name": "Doe",
@@ -60,7 +60,7 @@ def test_create_user(client: TestClient):
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
     assert isinstance(result["id"], int)
-    assert result["email"] == "single@example.com"
+    assert result["email"] == "john@doe.com"
     assert result["first_name"] == "John"
     assert result["last_name"] == "Doe"
 
@@ -68,7 +68,7 @@ def test_update_user(client: TestClient):
     create_response = client.post(
         "/api/v1/users/",
         json={
-            "email": "single@example.com",
+            "email": "john@doe.com",
             "password": "password123",
             "first_name": "John",
             "last_name": "Doe",
@@ -79,7 +79,7 @@ def test_update_user(client: TestClient):
     response = client.patch(
         f"/api/v1/users/{user_id}",
         json={
-            "email": "single@example.com",
+            "email": "john@doe.com",
             "password": "password123",
             "first_name": "John2",
             "last_name": "Doe2",
@@ -89,7 +89,7 @@ def test_update_user(client: TestClient):
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
     assert isinstance(result["id"], int)
-    assert result["email"] == "single@example.com"
+    assert result["email"] == "john@doe.com"
     assert result["first_name"] == "John2"
     assert result["last_name"] == "Doe2"
 
@@ -97,7 +97,7 @@ def test_delete_user(client: TestClient):
     create_response = client.post(
         "/api/v1/users/",
         json={
-            "email": "delete.me@example.com",
+            "email": "john@doe.com",
             "password": "password123",
             "first_name": "Delete",
             "last_name": "Me",
