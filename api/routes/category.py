@@ -13,7 +13,7 @@ from models.category_public import CategoryPublic
 from models.category_update import CategoryUpdate
 
 
-router = APIRouter(prefix="/categories", tags=["categories"])
+router = APIRouter(prefix="/category", tags=["category"])
 
 @router.get("/", response_model=CategoriesPublic)
 def read_categories(session: SessionDep, skip: int = 0, limit: int = 100):

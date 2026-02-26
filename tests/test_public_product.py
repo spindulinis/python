@@ -3,14 +3,14 @@ from fastapi import status
 
 def test_read_products(client: TestClient):
     client.post(
-        "/products/",
+        "/product/",
         json={
             "title": "Star Wars",
             "description": "Movie about space wars",
         },
     )
 
-    response = client.get("/public-products/?limit=1")
+    response = client.get("/public-product/?limit=1")
     data = response.json()
     
     assert data["count"] == 1      
@@ -24,7 +24,7 @@ def test_read_products(client: TestClient):
 
 def test_read_product_by_id(client: TestClient):
     create_response = client.post(
-        "/products/",
+        "/product/",
         json={
             "title": "Star Wars",
             "description": "Movie about space wars",
@@ -32,7 +32,7 @@ def test_read_product_by_id(client: TestClient):
     )
     product_id = create_response.json()["id"]
 
-    response = client.get(f"/public-products/{product_id}")
+    response = client.get(f"/public-product/{product_id}")
     
     assert response.status_code == status.HTTP_200_OK
     result = response.json()

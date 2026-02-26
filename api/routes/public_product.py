@@ -9,7 +9,7 @@ from models.product_public import ProductPublic
 from models.products_public import ProductsPublic
 
 
-router = APIRouter(prefix="/public-products", tags=["public-products"])
+router = APIRouter(prefix="/public-product", tags=["public-product"])
 
 @router.get("/", response_model=ProductsPublic)
 def read_products(session: SessionDep, skip: int = 0, limit: int = 100):

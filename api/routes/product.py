@@ -13,7 +13,7 @@ from models.product_update import ProductUpdate
 from models.products_public import ProductsPublic
 
 
-router = APIRouter(prefix="/products", tags=["products"])
+router = APIRouter(prefix="/product", tags=["product"])
 
 @router.get("/", response_model=ProductsPublic)
 def read_products(session: SessionDep, skip: int = 0, limit: int = 100):

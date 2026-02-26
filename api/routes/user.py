@@ -13,7 +13,7 @@ from models.user_update import UserUpdate
 from models.users_public import UsersPublic
 
 
-router = APIRouter(prefix="/users", tags=["users"])
+router = APIRouter(prefix="/user", tags=["user"])
 
 @router.get("/", response_model=UsersPublic)
 def read_users(session: SessionDep, skip: int = 0, limit: int = 100):

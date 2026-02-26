@@ -1,0 +1,5 @@
+### GET products
+GET http://127.0.0.1:8000/public-product/
+
+### GET product
+GET http://127.0.0.1:8000/public-product/22
