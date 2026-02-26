@@ -2,11 +2,15 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlmodel import Session, SQLModel, create_engine
 from sqlalchemy_utils import database_exists, create_database, drop_database
-from sqlalchemy import text
+from sqlalchemy import select, text
 
+from core import security
+from crud.user import create_user
 from main import app
 from api.deps import get_db
 from core.config import settings
+from models.user import User
+from models.user_create import UserCreate
 
 TEST_DB_NAME = "nestjs_test"
 TEST_SQLALCHEMY_DATABASE_URI = f"mysql+mysqldb://{settings.MYSQL_USER}:{settings.MYSQL_PASSWORD}@{settings.MYSQL_SERVER}:{settings.MYSQL_PORT}/{TEST_DB_NAME}"
@@ -61,3 +65,22 @@ def client_fixture(session: Session):
     with TestClient(app) as client:
         yield client
     app.dependency_overrides.clear()
+
+@pytest.fixture
+def admin_token_headers(client: TestClient, session: Session) -> dict[str, str]:
+    """Creates an admin user and returns the auth headers."""
+    email = "admin@example.com"
+    user = session.exec(select(User).where(User.email == email)).first()
+    
+    if not user:
+        user_in = UserCreate(
+            email=email,
+            password="testpassword",
+            first_name="Admin",
+            last_name="User",
+            role="admin"
+        )
+        user = create_user(session=session, user_create=user_in)
+    
+    auth_token = security.create_access_token(user.id, expires_delta=None)
+    return {"Authorization": f"Bearer {auth_token}"}
