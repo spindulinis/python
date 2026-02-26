@@ -3,14 +3,14 @@ from fastapi import status
 
 def test_read_products(client: TestClient):
     client.post(
-        "/api/v1/products/",
+        "/products/",
         json={
             "title": "Star Wars",
             "description": "Movie about space wars",
         },
     )
 
-    response = client.get("/api/v1/products/?limit=1")
+    response = client.get("/products/?limit=1")
     data = response.json()
     
     assert data["count"] == 1      
@@ -24,7 +24,7 @@ def test_read_products(client: TestClient):
 
 def test_read_product_by_id(client: TestClient):
     create_response = client.post(
-        "/api/v1/products/",
+        "/products/",
         json={
             "title": "Star Wars",
             "description": "Movie about space wars",
@@ -32,7 +32,7 @@ def test_read_product_by_id(client: TestClient):
     )
     product_id = create_response.json()["id"]
 
-    response = client.get(f"/api/v1/products/{product_id}")
+    response = client.get(f"/products/{product_id}")
     
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -42,7 +42,7 @@ def test_read_product_by_id(client: TestClient):
 
 def test_create_product(client: TestClient):
     response = client.post(
-        "/api/v1/products/",
+        "/products/",
         json={
             "title": "Star Wars",
             "description": "Movie about space wars",
@@ -57,7 +57,7 @@ def test_create_product(client: TestClient):
 
 def test_update_product(client: TestClient):
     create_response = client.post(
-        "/api/v1/products/",
+        "/products/",
         json={
             "title": "Star Wars",
             "description": "Movie about space wars",
@@ -66,7 +66,7 @@ def test_update_product(client: TestClient):
     product_id = create_response.json()["id"]
 
     response = client.patch(
-        f"/api/v1/products/{product_id}",
+        f"/products/{product_id}",
         json={
             "title": "Star Wars 2",
             "description": "Movie about space wars 2",
@@ -81,7 +81,7 @@ def test_update_product(client: TestClient):
 
 def test_delete_product(client: TestClient):
     create_response = client.post(
-        "/api/v1/products/",
+        "/products/",
         json={
             "title": "Star Wars",
             "description": "Movie about space wars",
@@ -89,5 +89,5 @@ def test_delete_product(client: TestClient):
     )
     product_id = create_response.json()["id"]
 
-    response = client.delete(f"/api/v1/products/{product_id}")
+    response = client.delete(f"/products/{product_id}")
     assert response.status_code == status.HTTP_200_OK

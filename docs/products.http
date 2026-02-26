@@ -1,11 +1,11 @@
 ### GET products
-GET http://127.0.0.1:8000/api/v1/products/
+GET http://127.0.0.1:8000/products/
 
 ### GET product
-GET http://127.0.0.1:8000/api/v1/products/22
+GET http://127.0.0.1:8000/products/22
 
 ### POST product
-POST http://127.0.0.1:8000/api/v1/products
+POST http://127.0.0.1:8000/products
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ### PATCH product
-PATCH http://127.0.0.1:8000/api/v1/products/24
+PATCH http://127.0.0.1:8000/products/24
 Content-Type: application/json
 
 {
@@ -24,4 +24,4 @@ Content-Type: application/json
 
 ### DELETE product
 
-DELETE http://127.0.0.1:8000/api/v1/products/23
+DELETE http://127.0.0.1:8000/products/23

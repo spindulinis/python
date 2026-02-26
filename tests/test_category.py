@@ -3,7 +3,7 @@ from fastapi import status
 
 def test_read_category(client: TestClient):
     client.post(
-        "/api/v1/categories/",
+        "/categories/",
         json={
             "order": 10,
             "title": "Fruit",
@@ -11,7 +11,7 @@ def test_read_category(client: TestClient):
         },
     )
 
-    response = client.get("/api/v1/categories/?limit=1")
+    response = client.get("/categories/?limit=1")
     data = response.json()
 
     assert data["count"] == 1      
@@ -26,7 +26,7 @@ def test_read_category(client: TestClient):
 
 def test_read_category_by_id(client: TestClient):
     create_response = client.post(
-        "/api/v1/categories/",
+        "/categories/",
         json={
             "order": 10,
             "title": "Fruit",
@@ -35,7 +35,7 @@ def test_read_category_by_id(client: TestClient):
     )
     category_id = create_response.json()["id"]
 
-    response = client.get(f"/api/v1/categories/{category_id}")
+    response = client.get(f"/categories/{category_id}")
     
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -46,7 +46,7 @@ def test_read_category_by_id(client: TestClient):
 
 def test_create_category(client: TestClient):
     response = client.post(
-        "/api/v1/categories/",
+        "/categories/",
         json={
             "order": 10,
             "title": "Fruit",
@@ -63,7 +63,7 @@ def test_create_category(client: TestClient):
 
 def test_update_category(client: TestClient):
     create_response = client.post(
-        "/api/v1/categories/",
+        "/categories/",
         json={
             "order": 10,
             "title": "Fruit",
@@ -73,7 +73,7 @@ def test_update_category(client: TestClient):
     category_id = create_response.json()["id"]
 
     response = client.patch(
-        f"/api/v1/categories/{category_id}",
+        f"/categories/{category_id}",
         json={
             "order": 102,
             "title": "Fruit 2",
@@ -90,7 +90,7 @@ def test_update_category(client: TestClient):
 
 def test_delete_category(client: TestClient):
     create_response = client.post(
-        "/api/v1/categories/",
+        "/categories/",
         json={
             "order": 10,
             "title": "Fruit",
@@ -99,5 +99,5 @@ def test_delete_category(client: TestClient):
     )
     category_id = create_response.json()["id"]
 
-    response = client.delete(f"/api/v1/categories/{category_id}")
+    response = client.delete(f"/categories/{category_id}")
     assert response.status_code == status.HTTP_200_OK

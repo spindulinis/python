@@ -1,11 +1,11 @@
 ### GET categories
-GET http://127.0.0.1:8000/api/v1/categories/
+GET http://127.0.0.1:8000/categories/
 
 ### GET category
-GET http://127.0.0.1:8000/api/v1/categories/19
+GET http://127.0.0.1:8000/categories/19
 
 ### POST category
-POST http://127.0.0.1:8000/api/v1/categories
+POST http://127.0.0.1:8000/categories
 Content-Type: application/json
 
 {
@@ -15,7 +15,7 @@ Content-Type: application/json
 }
 
 ### PATCH category
-PATCH http://127.0.0.1:8000/api/v1/categories/22
+PATCH http://127.0.0.1:8000/categories/22
 Content-Type: application/json
 
 {
@@ -26,4 +26,4 @@ Content-Type: application/json
 
 ### DELETE category
 
-DELETE http://127.0.0.1:8000/api/v1/categories/22
+DELETE http://127.0.0.1:8000/categories/22

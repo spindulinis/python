@@ -1,5 +1,5 @@
 ### POST authentication
-POST http://127.0.0.1:8000/api/v1/authentication/sign-up
+POST http://127.0.0.1:8000/authentication/sign-up
 Content-Type: application/json
 
 {
@@ -11,7 +11,7 @@ Content-Type: application/json
 
 
 ### POST authentication
-POST http://127.0.0.1:8000/api/v1/authentication/sign-in
+POST http://127.0.0.1:8000/authentication/sign-in
 Content-Type: application/json
 
 {

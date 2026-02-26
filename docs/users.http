@@ -1,11 +1,11 @@
 ### GET users
-GET http://127.0.0.1:8000/api/v1/users/
+GET http://127.0.0.1:8000/users/
 
 ### GET user
-GET http://127.0.0.1:8000/api/v1/users/15
+GET http://127.0.0.1:8000/users/15
 
 ### POST user
-POST http://127.0.0.1:8000/api/v1/users
+POST http://127.0.0.1:8000/users
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ### PATCH user
-PATCH http://127.0.0.1:8000/api/v1/users/20
+PATCH http://127.0.0.1:8000/users/20
 Content-Type: application/json
 
 {
@@ -30,4 +30,4 @@ Content-Type: application/json
 
 ### DELETE user
 
-DELETE http://127.0.0.1:8000/api/v1/users/18
+DELETE http://127.0.0.1:8000/users/18

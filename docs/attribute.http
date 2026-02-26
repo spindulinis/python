@@ -1,11 +1,11 @@
 ### GET attributes
-GET http://127.0.0.1:8000/api/v1/attribute/
+GET http://127.0.0.1:8000/attribute/
 
 ### GET attribute
-GET http://127.0.0.1:8000/api/v1/attribute/1
+GET http://127.0.0.1:8000/attribute/1
 
 ### POST attribute
-POST http://127.0.0.1:8000/api/v1/attribute
+POST http://127.0.0.1:8000/attribute
 Content-Type: application/json
 
 {
@@ -13,7 +13,7 @@ Content-Type: application/json
 }
 
 ### PATCH attribute
-PATCH http://127.0.0.1:8000/api/v1/attribute/4
+PATCH http://127.0.0.1:8000/attribute/4
 Content-Type: application/json
 
 {
@@ -22,4 +22,4 @@ Content-Type: application/json
 
 ### DELETE attribute
 
-DELETE http://127.0.0.1:8000/api/v1/attribute/4
+DELETE http://127.0.0.1:8000/attribute/4

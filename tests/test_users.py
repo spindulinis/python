@@ -3,7 +3,7 @@ from fastapi import status
 
 def test_read_users(client: TestClient):
     client.post(
-        "/api/v1/users/",
+        "/users/",
         json={
             "email": "john@doe.com",
             "password": "password123",
@@ -12,7 +12,7 @@ def test_read_users(client: TestClient):
         },
     )
 
-    response = client.get("/api/v1/users/?limit=1")
+    response = client.get("/users/?limit=1")
     data = response.json()
     
     assert data["count"] == 1      
@@ -27,7 +27,7 @@ def test_read_users(client: TestClient):
 
 def test_read_user_by_id(client: TestClient):
     create_response = client.post(
-        "/api/v1/users/",
+        "/users/",
         json={
             "email": "john@doe.com",
             "password": "password123",
@@ -37,7 +37,7 @@ def test_read_user_by_id(client: TestClient):
     )
     user_id = create_response.json()["id"]
 
-    response = client.get(f"/api/v1/users/{user_id}")
+    response = client.get(f"/users/{user_id}")
     
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -48,7 +48,7 @@ def test_read_user_by_id(client: TestClient):
 
 def test_create_user(client: TestClient):
     response = client.post(
-        "/api/v1/users/",
+        "/users/",
         json={
             "email": "john@doe.com",
             "password": "password123",
@@ -66,7 +66,7 @@ def test_create_user(client: TestClient):
 
 def test_update_user(client: TestClient):
     create_response = client.post(
-        "/api/v1/users/",
+        "/users/",
         json={
             "email": "john@doe.com",
             "password": "password123",
@@ -77,7 +77,7 @@ def test_update_user(client: TestClient):
     user_id = create_response.json()["id"]
 
     response = client.patch(
-        f"/api/v1/users/{user_id}",
+        f"/users/{user_id}",
         json={
             "email": "john@doe.com",
             "password": "password123",
@@ -95,7 +95,7 @@ def test_update_user(client: TestClient):
 
 def test_delete_user(client: TestClient):
     create_response = client.post(
-        "/api/v1/users/",
+        "/users/",
         json={
             "email": "john@doe.com",
             "password": "password123",
@@ -105,5 +105,5 @@ def test_delete_user(client: TestClient):
     )
     user_id = create_response.json()["id"]
 
-    response = client.delete(f"/api/v1/users/{user_id}")
+    response = client.delete(f"/users/{user_id}")
     assert response.status_code == status.HTTP_200_OK
