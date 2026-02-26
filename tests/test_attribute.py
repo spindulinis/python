@@ -48,3 +48,36 @@ def test_create_attribute(client: TestClient):
     result = response.json()
     assert isinstance(result["id"], int)
     assert result["title"] == "Color"
+
+def test_update_attribute(client: TestClient):
+    create_response = client.post(
+        "/attribute/",
+        json={
+            "title": "Color",
+        },
+    )
+    attribute_id = create_response.json()["id"]
+
+    response = client.patch(
+        f"/attribute/{attribute_id}",
+        json={
+            "title": "Color 2",
+        },
+    )
+
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    assert isinstance(result["id"], int)
+    assert result["title"] == "Color 2"
+
+def test_delete_attribute(client: TestClient):
+    create_response = client.post(
+        "/attribute/",
+        json={
+            "title": "Color",
+        },
+    )
+    attribute_id = create_response.json()["id"]
+
+    response = client.delete(f"/attribute/{attribute_id}")
+    assert response.status_code == status.HTTP_200_OK
