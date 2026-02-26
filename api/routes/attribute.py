@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import col, func, select
 
 from api.deps import (
     SessionDep,
+    get_current_admin_user,
 )
 from crud import attribute as attribute_crud
 
@@ -16,7 +17,7 @@ from models.attributes_public import AttributesPublic
 
 router = APIRouter(prefix="/attribute", tags=["attribute"])
 
-@router.get("/", response_model=AttributesPublic)
+@router.get("/", response_model=AttributesPublic, dependencies=[Depends(get_current_admin_user)])
 def read_attributes(session: SessionDep, skip: int = 0, limit: int = 100):
     """
     Retrieve attributes.
@@ -32,7 +33,7 @@ def read_attributes(session: SessionDep, skip: int = 0, limit: int = 100):
 
     return AttributesPublic(data=attributes, count=count)
 
-@router.get("/{attribute_id}", response_model=AttributePublic)
+@router.get("/{attribute_id}", response_model=AttributePublic, dependencies=[Depends(get_current_admin_user)])
 def read_category_by_id(attribute_id: int, session: SessionDep):
     """
     Get a specific attribute by id.
@@ -42,7 +43,7 @@ def read_category_by_id(attribute_id: int, session: SessionDep):
         raise HTTPException(status_code=404, detail="Attribute not found")
     return attribute
 
-@router.post("/", response_model=AttributePublic)
+@router.post("/", response_model=AttributePublic, dependencies=[Depends(get_current_admin_user)])
 def create_attribute(*, session: SessionDep, attribute_in: AttributeCreate):
     """
     Create new attribute.
@@ -50,7 +51,7 @@ def create_attribute(*, session: SessionDep, attribute_in: AttributeCreate):
     attribute = attribute_crud.create_attribute(session=session, attribute_create=attribute_in)
     return attribute
 
-@router.patch("/{attribute_id}",response_model=AttributePublic)
+@router.patch("/{attribute_id}",response_model=AttributePublic, dependencies=[Depends(get_current_admin_user)])
 def update_attribute(*, session: SessionDep, attribute_id: int, attribute_in: AttributeUpdate):
     """
     Update a attribute.
@@ -65,7 +66,7 @@ def update_attribute(*, session: SessionDep, attribute_id: int, attribute_in: At
     db_attribute = attribute_crud.update_attribute(session=session, db_attribute=db_attribute, attribute_in=attribute_in)
     return db_attribute
 
-@router.delete("/{attribute_id}")
+@router.delete("/{attribute_id}", dependencies=[Depends(get_current_admin_user)])
 def delete_attribute(session: SessionDep, attribute_id: int):
     """
     Delete a attribute.
