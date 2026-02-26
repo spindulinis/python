@@ -8,6 +8,7 @@ from models.user_base import UserBase
 
 class User(UserBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
+    password: str = Field()
     created_date: datetime | None = Field(
         default_factory=get_datetime_utc,
         sa_type=DateTime(timezone=True),  # type: ignore

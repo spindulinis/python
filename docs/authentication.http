@@ -5,6 +5,16 @@ Content-Type: application/json
 {
     "first_name": "Johny",
     "last_name": "Doee",
-    "email": "johny@doeee.com",
+    "email": "johny@doeeeee.com",
+    "password": "s3cr3tLongPassword"
+}
+
+
+### POST authentication
+POST http://127.0.0.1:8000/api/v1/authentication/sign-in
+Content-Type: application/json
+
+{
+    "email": "johny@doeeeee.com",
     "password": "s3cr3tLongPassword"
 }
