@@ -17,7 +17,7 @@ from models.users_public import UsersPublic
 router = APIRouter(prefix="/user", tags=["user"])
 
 @router.get("/", response_model=UsersPublic, dependencies=[Depends(get_current_admin_user)])
-def read_users(session: SessionDep, skip: int = 0, limit: int = 100):
+def read_users(session: SessionDep, offset: int = 0, limit: int = 100):
     """
     Retrieve users.
     """
@@ -26,11 +26,11 @@ def read_users(session: SessionDep, skip: int = 0, limit: int = 100):
     count = session.exec(count_statement).one()
 
     statement = (
-        select(User).order_by(col(User.created_date).desc()).offset(skip).limit(limit)
+        select(User).order_by(col(User.created_date).desc()).offset(offset).limit(limit)
     )
     users = session.exec(statement).all()
 
-    return UsersPublic(data=users, count=count)
+    return UsersPublic(items=users, total=count, limit=limit, offset=offset)
 
 @router.get("/{user_id}", response_model=UserPublic, dependencies=[Depends(get_current_admin_user)])
 def read_user_by_id(user_id: int, session: SessionDep):

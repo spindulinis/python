@@ -12,26 +12,21 @@ from models.attribute import Attribute
 from models.attribute_create import AttributeCreate
 from models.attribute_public import AttributePublic
 from models.attribute_update import AttributeUpdate
-from models.attributes_public import AttributesPublic
-
 
 router = APIRouter(prefix="/attribute", tags=["attribute"])
 
-@router.get("/", response_model=AttributesPublic, dependencies=[Depends(get_current_admin_user)])
-def read_attributes(session: SessionDep, skip: int = 0, limit: int = 100):
+@router.get("/", response_model=list[AttributePublic], dependencies=[Depends(get_current_admin_user)])
+def read_attributes(session: SessionDep):
     """
     Retrieve attributes.
     """
 
-    count_statement = select(func.count()).select_from(Attribute)
-    count = session.exec(count_statement).one()
-
     statement = (
-        select(Attribute).offset(skip).limit(limit)
+        select(Attribute)
     )
     attributes = session.exec(statement).all()
 
-    return AttributesPublic(data=attributes, count=count)
+    return attributes
 
 @router.get("/{attribute_id}", response_model=AttributePublic, dependencies=[Depends(get_current_admin_user)])
 def read_category_by_id(attribute_id: int, session: SessionDep):

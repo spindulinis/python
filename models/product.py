@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Any
 
 from sqlalchemy import DateTime
 from sqlmodel import Field, Relationship
@@ -8,6 +8,8 @@ from models.base import get_datetime_utc
 from models.product_attribute import ProductAttribute
 from models.product_base import ProductBase
 from models.product_category import ProductCategory
+from pydantic import ConfigDict
+from pydantic.alias_generators import to_camel
 
 class Product(ProductBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
@@ -28,4 +30,10 @@ class Product(ProductBase, table=True):
     attributes: List["Attribute"] = Relationship( # type: ignore
         back_populates="products", 
         link_model=ProductAttribute
+    )
+
+    model_config: Any = ConfigDict(
+        alias_generator=to_camel,
+        populate_by_name=True,
+        from_attributes=True
     )

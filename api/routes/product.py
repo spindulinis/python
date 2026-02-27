@@ -17,7 +17,7 @@ from models.products_public import ProductsPublic
 router = APIRouter(prefix="/product", tags=["product"])
 
 @router.get("/", response_model=ProductsPublic, dependencies=[Depends(get_current_admin_user)])
-def read_products(session: SessionDep, skip: int = 0, limit: int = 100):
+def read_products(session: SessionDep, offset: int = 0, limit: int = 100):
     """
     Retrieve products.
     """
@@ -26,11 +26,11 @@ def read_products(session: SessionDep, skip: int = 0, limit: int = 100):
     count = session.exec(count_statement).one()
 
     statement = (
-        select(Product).order_by(col(Product.created_date).desc()).offset(skip).limit(limit)
+        select(Product).order_by(col(Product.created_date).desc()).offset(offset).limit(limit)
     )
     products = session.exec(statement).all()
 
-    return ProductsPublic(data=products, count=count)
+    return ProductsPublic(items=products, total=count, limit=limit, offset=offset)
 
 @router.get("/{product_id}", response_model=ProductPublic, dependencies=[Depends(get_current_admin_user)])
 def read_product_by_id(product_id: int, session: SessionDep):

@@ -16,21 +16,18 @@ from models.category_update import CategoryUpdate
 
 router = APIRouter(prefix="/category", tags=["category"])
 
-@router.get("/", response_model=CategoriesPublic, dependencies=[Depends(get_current_admin_user)])
-def read_categories(session: SessionDep, skip: int = 0, limit: int = 100):
+@router.get("/", response_model=list[CategoryPublic], dependencies=[Depends(get_current_admin_user)])
+def read_categories(session: SessionDep):
     """
     Retrieve categories.
     """
 
-    count_statement = select(func.count()).select_from(Category)
-    count = session.exec(count_statement).one()
-
     statement = (
-        select(Category).order_by(col(Category.order).desc()).offset(skip).limit(limit)
+        select(Category)
     )
     categories = session.exec(statement).all()
 
-    return CategoriesPublic(data=categories, count=count)
+    return categories
 
 @router.get("/{category_id}", response_model=CategoryPublic, dependencies=[Depends(get_current_admin_user)])
 def read_category_by_id(category_id: int, session: SessionDep):

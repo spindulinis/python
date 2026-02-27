@@ -1,4 +1,5 @@
 from sqlmodel import SQLModel
+
 from models.category_public import CategoryPublic
 
 class CategoriesPublic(SQLModel):

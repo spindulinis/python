@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIxOTc5MDYsInN1YiI6IjI0In0.X-EqG0aTm4hTYvVSBLEfB7BfXGSaMoTpTja3yp8rnbw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIyMTA2MTgsInN1YiI6IjI0In0.-OhVSzVz_fyTH9Pbca1o4Z4YJmUoB83tSHDVPuEjq_M
 
 ### GET categories
 GET http://127.0.0.1:8000/category/

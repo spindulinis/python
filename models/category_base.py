@@ -1,5 +1,7 @@
-from typing import Optional
+from typing import Optional, Any
 
+from pydantic import ConfigDict
+from pydantic.alias_generators import to_camel
 from sqlmodel import Column, Field, SQLModel, Text
 
 class CategoryBase(SQLModel):
@@ -10,3 +12,9 @@ class CategoryBase(SQLModel):
         sa_column=Column(Text)
     )
     parent_id: Optional[int] = Field(default=None, foreign_key="category.id")
+
+    model_config: Any = ConfigDict(
+        alias_generator=to_camel,
+        populate_by_name=True,
+        from_attributes=True
+    )
