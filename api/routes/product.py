@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import col, func, select
 
 from api.deps import (
     SessionDep,
+    get_current_admin_user,
 )
 from crud import product as product_crud
 from models.base import Message
@@ -15,7 +16,7 @@ from models.products_public import ProductsPublic
 
 router = APIRouter(prefix="/product", tags=["product"])
 
-@router.get("/", response_model=ProductsPublic)
+@router.get("/", response_model=ProductsPublic, dependencies=[Depends(get_current_admin_user)])
 def read_products(session: SessionDep, skip: int = 0, limit: int = 100):
     """
     Retrieve products.
@@ -31,7 +32,7 @@ def read_products(session: SessionDep, skip: int = 0, limit: int = 100):
 
     return ProductsPublic(data=products, count=count)
 
-@router.get("/{product_id}", response_model=ProductPublic)
+@router.get("/{product_id}", response_model=ProductPublic, dependencies=[Depends(get_current_admin_user)])
 def read_product_by_id(product_id: int, session: SessionDep):
     """
     Get a specific product by id.
@@ -41,7 +42,7 @@ def read_product_by_id(product_id: int, session: SessionDep):
         raise HTTPException(status_code=404, detail="Product not found")
     return product
 
-@router.post("/", response_model=ProductPublic)
+@router.post("/", response_model=ProductPublic, dependencies=[Depends(get_current_admin_user)])
 def create_product(*, session: SessionDep, product_in: ProductCreate):
     """
     Create new product.
@@ -49,7 +50,7 @@ def create_product(*, session: SessionDep, product_in: ProductCreate):
     product = product_crud.create_product(session=session, product_create=product_in)
     return product
 
-@router.patch("/{product_id}",response_model=ProductPublic)
+@router.patch("/{product_id}",response_model=ProductPublic, dependencies=[Depends(get_current_admin_user)])
 def update_product(*, session: SessionDep, product_id: int, product_in: ProductUpdate):
     """
     Update a product.
@@ -64,7 +65,7 @@ def update_product(*, session: SessionDep, product_id: int, product_in: ProductU
     db_product = product_crud.update_product(session=session, db_product=db_product, product_in=product_in)
     return db_product
 
-@router.delete("/{product_id}")
+@router.delete("/{product_id}", dependencies=[Depends(get_current_admin_user)])
 def delete_product(session: SessionDep, product_id: int):
     """
     Delete a product.
