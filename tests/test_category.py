@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from fastapi import status
 
-def test_read_category(client: TestClient):
+def test_read_category(client: TestClient, admin_token_headers: dict):
     client.post(
         "/category/",
         json={
@@ -9,9 +9,10 @@ def test_read_category(client: TestClient):
             "title": "Fruit",
             "description": "Fruit category",
         },
+        headers=admin_token_headers
     )
 
-    response = client.get("/category/?limit=1")
+    response = client.get("/category/?limit=1", headers=admin_token_headers)
     data = response.json()
 
     assert data["count"] == 1      
@@ -24,7 +25,7 @@ def test_read_category(client: TestClient):
     assert result["title"] == "Fruit"
     assert result["description"] == "Fruit category"
 
-def test_read_category_by_id(client: TestClient):
+def test_read_category_by_id(client: TestClient, admin_token_headers: dict):
     create_response = client.post(
         "/category/",
         json={
@@ -32,10 +33,11 @@ def test_read_category_by_id(client: TestClient):
             "title": "Fruit",
             "description": "Fruit category",
         },
+        headers=admin_token_headers
     )
     category_id = create_response.json()["id"]
 
-    response = client.get(f"/category/{category_id}")
+    response = client.get(f"/category/{category_id}", headers=admin_token_headers)
     
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -44,7 +46,7 @@ def test_read_category_by_id(client: TestClient):
     assert result["title"] == "Fruit"
     assert result["description"] == "Fruit category"
 
-def test_create_category(client: TestClient):
+def test_create_category(client: TestClient, admin_token_headers: dict):
     response = client.post(
         "/category/",
         json={
@@ -52,6 +54,7 @@ def test_create_category(client: TestClient):
             "title": "Fruit",
             "description": "Fruit category",
         },
+        headers=admin_token_headers
     )
 
     assert response.status_code == status.HTTP_200_OK
@@ -61,7 +64,7 @@ def test_create_category(client: TestClient):
     assert result["title"] == "Fruit"
     assert result["description"] == "Fruit category"
 
-def test_update_category(client: TestClient):
+def test_update_category(client: TestClient, admin_token_headers: dict):
     create_response = client.post(
         "/category/",
         json={
@@ -69,6 +72,7 @@ def test_update_category(client: TestClient):
             "title": "Fruit",
             "description": "Fruit category",
         },
+        headers=admin_token_headers
     )
     category_id = create_response.json()["id"]
 
@@ -79,6 +83,7 @@ def test_update_category(client: TestClient):
             "title": "Fruit 2",
             "description": "Fruit category 2",
         },
+        headers=admin_token_headers
     )
 
     assert response.status_code == status.HTTP_200_OK
@@ -88,7 +93,7 @@ def test_update_category(client: TestClient):
     assert result["title"] == "Fruit 2"
     assert result["description"] == "Fruit category 2"
 
-def test_delete_category(client: TestClient):
+def test_delete_category(client: TestClient, admin_token_headers: dict):
     create_response = client.post(
         "/category/",
         json={
@@ -96,8 +101,9 @@ def test_delete_category(client: TestClient):
             "title": "Fruit",
             "description": "Fruit category",
         },
+        headers=admin_token_headers
     )
     category_id = create_response.json()["id"]
 
-    response = client.delete(f"/category/{category_id}")
+    response = client.delete(f"/category/{category_id}", headers=admin_token_headers)
     assert response.status_code == status.HTTP_200_OK

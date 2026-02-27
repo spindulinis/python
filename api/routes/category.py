@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import col, func, select
 
 from api.deps import (
     SessionDep,
+    get_current_admin_user,
 )
 from crud import category as category_crud
 from models.base import Message
@@ -15,7 +16,7 @@ from models.category_update import CategoryUpdate
 
 router = APIRouter(prefix="/category", tags=["category"])
 
-@router.get("/", response_model=CategoriesPublic)
+@router.get("/", response_model=CategoriesPublic, dependencies=[Depends(get_current_admin_user)])
 def read_categories(session: SessionDep, skip: int = 0, limit: int = 100):
     """
     Retrieve categories.
@@ -31,7 +32,7 @@ def read_categories(session: SessionDep, skip: int = 0, limit: int = 100):
 
     return CategoriesPublic(data=categories, count=count)
 
-@router.get("/{category_id}", response_model=CategoryPublic)
+@router.get("/{category_id}", response_model=CategoryPublic, dependencies=[Depends(get_current_admin_user)])
 def read_category_by_id(category_id: int, session: SessionDep):
     """
     Get a specific category by id.
@@ -41,7 +42,7 @@ def read_category_by_id(category_id: int, session: SessionDep):
         raise HTTPException(status_code=404, detail="Category not found")
     return category
 
-@router.post("/", response_model=CategoryPublic)
+@router.post("/", response_model=CategoryPublic, dependencies=[Depends(get_current_admin_user)])
 def create_category(*, session: SessionDep, category_in: CategoryCreate):
     """
     Create new category.
@@ -49,7 +50,7 @@ def create_category(*, session: SessionDep, category_in: CategoryCreate):
     category = category_crud.create_category(session=session, category_create=category_in)
     return category
 
-@router.patch("/{category_id}",response_model=CategoryPublic)
+@router.patch("/{category_id}",response_model=CategoryPublic, dependencies=[Depends(get_current_admin_user)])
 def update_category(*, session: SessionDep, category_id: int, category_in: CategoryUpdate):
     """
     Update a category.
@@ -65,7 +66,7 @@ def update_category(*, session: SessionDep, category_id: int, category_in: Categ
     return db_category
 
 @router.delete("/{category_id}")
-def delete_category(session: SessionDep, category_id: int):
+def delete_category(session: SessionDep, category_id: int, dependencies=[Depends(get_current_admin_user)]):
     """
     Delete a category.
     """

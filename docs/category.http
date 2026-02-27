@@ -1,11 +1,16 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIxOTc5MDYsInN1YiI6IjI0In0.X-EqG0aTm4hTYvVSBLEfB7BfXGSaMoTpTja3yp8rnbw
+
 ### GET categories
 GET http://127.0.0.1:8000/category/
+Authorization: Bearer {{token}}
 
 ### GET category
 GET http://127.0.0.1:8000/category/19
+Authorization: Bearer {{token}}
 
 ### POST category
 POST http://127.0.0.1:8000/category
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -15,7 +20,8 @@ Content-Type: application/json
 }
 
 ### PATCH category
-PATCH http://127.0.0.1:8000/category/22
+PATCH http://127.0.0.1:8000/category/23
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -27,3 +33,4 @@ Content-Type: application/json
 ### DELETE category
 
 DELETE http://127.0.0.1:8000/category/22
+Authorization: Bearer {{token}}

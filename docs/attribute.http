@@ -1,14 +1,17 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIxOTc5MDYsInN1YiI6IjI0In0.X-EqG0aTm4hTYvVSBLEfB7BfXGSaMoTpTja3yp8rnbw
+
+
 ### GET attributes
 GET http://127.0.0.1:8000/attribute/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIxMTg2MjksInN1YiI6IjI0In0.J8UKPD-tw-edzfHIMrX8VdqvjZX69qTT5sWHaYvoU-0
+Authorization: Bearer {{token}}
 
 ### GET attribute
 GET http://127.0.0.1:8000/attribute/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIxMTg2MjksInN1YiI6IjI0In0.J8UKPD-tw-edzfHIMrX8VdqvjZX69qTT5sWHaYvoU-0
+Authorization: Bearer {{token}}
 
 ### POST attribute
 POST http://127.0.0.1:8000/attribute
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIxMTg2MjksInN1YiI6IjI0In0.J8UKPD-tw-edzfHIMrX8VdqvjZX69qTT5sWHaYvoU-0
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -17,7 +20,7 @@ Content-Type: application/json
 
 ### PATCH attribute
 PATCH http://127.0.0.1:8000/attribute/5
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIxMTg2MjksInN1YiI6IjI0In0.J8UKPD-tw-edzfHIMrX8VdqvjZX69qTT5sWHaYvoU-0
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -27,4 +30,4 @@ Content-Type: application/json
 ### DELETE attribute
 
 DELETE http://127.0.0.1:8000/attribute/5
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIxMTg2MjksInN1YiI6IjI0In0.J8UKPD-tw-edzfHIMrX8VdqvjZX69qTT5sWHaYvoU-0
+Authorization: Bearer {{token}}
