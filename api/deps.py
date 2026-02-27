@@ -4,13 +4,14 @@ from typing import Annotated
 import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-#from jwt.exceptions import InvalidTokenError
+from jwt.exceptions import InvalidTokenError
 from pydantic import ValidationError
 from sqlmodel import Session
 
 from core import security
 from core.config import settings
 from core.db import engine
+from enums.user_role import UserRole
 from models.base import TokenPayload
 from models.user import User
 
@@ -29,16 +30,16 @@ TokenDep = Annotated[str, Depends(reusable_oauth2)]
 
 
 def get_current_user(session: SessionDep, token: TokenDep) -> User:
-    #try:
-    payload = jwt.decode(
-        token, settings.SECRET_KEY, algorithms=[security.ALGORITHM]
-    )
-    token_data = TokenPayload(**payload)
-    # except (InvalidTokenError, ValidationError):
-    #     raise HTTPException(
-    #         status_code=status.HTTP_403_FORBIDDEN,
-    #         detail="Could not validate credentials",
-    #     )
+    try:
+        payload = jwt.decode(
+            token, settings.SECRET_KEY, algorithms=[security.ALGORITHM]
+        )
+        token_data = TokenPayload(**payload)
+    except (InvalidTokenError, ValidationError):
+         raise HTTPException(
+             status_code=status.HTTP_403_FORBIDDEN,
+             detail="Could not validate credentials",
+         )
     user = session.get(User, token_data.sub)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -48,7 +49,7 @@ def get_current_user(session: SessionDep, token: TokenDep) -> User:
 CurrentUser = Annotated[User, Depends(get_current_user)]
 
 def get_current_admin_user(current_user: CurrentUser) -> User:
-    if current_user.role != "admin":
+    if current_user.role != UserRole.admin:
         raise HTTPException(
             status_code=403, detail="The user doesn't have enough privileges"
         )
