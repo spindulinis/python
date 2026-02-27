@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import col, func, select
 
 from api.deps import (
     SessionDep,
+    get_current_admin_user
 )
 from crud import user as user_crud
 from models.base import Message
@@ -15,7 +16,7 @@ from models.users_public import UsersPublic
 
 router = APIRouter(prefix="/user", tags=["user"])
 
-@router.get("/", response_model=UsersPublic)
+@router.get("/", response_model=UsersPublic, dependencies=[Depends(get_current_admin_user)])
 def read_users(session: SessionDep, skip: int = 0, limit: int = 100):
     """
     Retrieve users.
@@ -31,7 +32,7 @@ def read_users(session: SessionDep, skip: int = 0, limit: int = 100):
 
     return UsersPublic(data=users, count=count)
 
-@router.get("/{user_id}", response_model=UserPublic)
+@router.get("/{user_id}", response_model=UserPublic, dependencies=[Depends(get_current_admin_user)])
 def read_user_by_id(user_id: int, session: SessionDep):
     """
     Get a specific user by id.
@@ -41,7 +42,7 @@ def read_user_by_id(user_id: int, session: SessionDep):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@router.post("/", response_model=UserPublic)
+@router.post("/", response_model=UserPublic, dependencies=[Depends(get_current_admin_user)])
 def create_user(*, session: SessionDep, user_in: UserCreate):
     """
     Create new user.
@@ -56,7 +57,7 @@ def create_user(*, session: SessionDep, user_in: UserCreate):
     user = user_crud.create_user(session=session, user_create=user_in)
     return user
 
-@router.patch("/{user_id}",response_model=UserPublic,)
+@router.patch("/{user_id}",response_model=UserPublic, dependencies=[Depends(get_current_admin_user)])
 def update_user(*, session: SessionDep, user_id: int, user_in: UserUpdate):
     """
     Update a user.
@@ -71,7 +72,7 @@ def update_user(*, session: SessionDep, user_id: int, user_in: UserUpdate):
     db_user = user_crud.update_user(session=session, db_user=db_user, user_in=user_in)
     return db_user
 
-@router.delete("/{user_id}")
+@router.delete("/{user_id}", dependencies=[Depends(get_current_admin_user)])
 def delete_user(session: SessionDep, user_id: int):
     """
     Delete a user.

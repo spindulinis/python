@@ -1,11 +1,16 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIxOTc5MDYsInN1YiI6IjI0In0.X-EqG0aTm4hTYvVSBLEfB7BfXGSaMoTpTja3yp8rnbw
+
 ### GET products
 GET http://127.0.0.1:8000/product/
+Authorization: Bearer {{token}}
 
 ### GET product
 GET http://127.0.0.1:8000/product/22
+Authorization: Bearer {{token}}
 
 ### POST product
 POST http://127.0.0.1:8000/product
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -15,6 +20,7 @@ Content-Type: application/json
 
 ### PATCH product
 PATCH http://127.0.0.1:8000/product/24
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -25,3 +31,4 @@ Content-Type: application/json
 ### DELETE product
 
 DELETE http://127.0.0.1:8000/product/23
+Authorization: Bearer {{token}}

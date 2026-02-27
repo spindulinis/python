@@ -1,11 +1,16 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NzIxOTc5MDYsInN1YiI6IjI0In0.X-EqG0aTm4hTYvVSBLEfB7BfXGSaMoTpTja3yp8rnbw
+
 ### GET users
 GET http://127.0.0.1:8000/user/
+Authorization: Bearer {{token}}
 
 ### GET user
 GET http://127.0.0.1:8000/user/15
+Authorization: Bearer {{token}}
 
 ### POST user
 POST http://127.0.0.1:8000/user
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -18,6 +23,7 @@ Content-Type: application/json
 
 ### PATCH user
 PATCH http://127.0.0.1:8000/user/20
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -31,3 +37,4 @@ Content-Type: application/json
 ### DELETE user
 
 DELETE http://127.0.0.1:8000/user/18
+Authorization: Bearer {{token}}

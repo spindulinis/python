@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from fastapi import status
 
-def test_read_users(client: TestClient):
+def test_read_users(client: TestClient, admin_token_headers: dict):
     client.post(
         "/user/",
         json={
@@ -10,12 +10,13 @@ def test_read_users(client: TestClient):
             "first_name": "John",
             "last_name": "Doe",
         },
+        headers=admin_token_headers
     )
 
-    response = client.get("/user/?limit=1")
+    response = client.get("/user/?limit=1", headers=admin_token_headers)
     data = response.json()
     
-    assert data["count"] == 1      
+    assert data["count"] == 2      
     assert len(data["data"]) == 1
 
     result = data["data"][0]
@@ -25,7 +26,7 @@ def test_read_users(client: TestClient):
     assert result["first_name"] == "John"
     assert result["last_name"] == "Doe"
 
-def test_read_user_by_id(client: TestClient):
+def test_read_user_by_id(client: TestClient, admin_token_headers: dict):
     create_response = client.post(
         "/user/",
         json={
@@ -34,10 +35,11 @@ def test_read_user_by_id(client: TestClient):
             "first_name": "John",
             "last_name": "Doe",
         },
+        headers=admin_token_headers
     )
     user_id = create_response.json()["id"]
 
-    response = client.get(f"/user/{user_id}")
+    response = client.get(f"/user/{user_id}", headers=admin_token_headers)
     
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -46,7 +48,7 @@ def test_read_user_by_id(client: TestClient):
     assert result["first_name"] == "John"
     assert result["last_name"] == "Doe"
 
-def test_create_user(client: TestClient):
+def test_create_user(client: TestClient, admin_token_headers: dict):
     response = client.post(
         "/user/",
         json={
@@ -55,6 +57,7 @@ def test_create_user(client: TestClient):
             "first_name": "John",
             "last_name": "Doe",
         },
+        headers=admin_token_headers
     )
 
     assert response.status_code == status.HTTP_200_OK
@@ -64,7 +67,7 @@ def test_create_user(client: TestClient):
     assert result["first_name"] == "John"
     assert result["last_name"] == "Doe"
 
-def test_update_user(client: TestClient):
+def test_update_user(client: TestClient, admin_token_headers: dict):
     create_response = client.post(
         "/user/",
         json={
@@ -73,6 +76,7 @@ def test_update_user(client: TestClient):
             "first_name": "John",
             "last_name": "Doe",
         },
+        headers=admin_token_headers
     )
     user_id = create_response.json()["id"]
 
@@ -84,6 +88,7 @@ def test_update_user(client: TestClient):
             "first_name": "John2",
             "last_name": "Doe2",
         },
+        headers=admin_token_headers
     )
 
     assert response.status_code == status.HTTP_200_OK
@@ -93,7 +98,7 @@ def test_update_user(client: TestClient):
     assert result["first_name"] == "John2"
     assert result["last_name"] == "Doe2"
 
-def test_delete_user(client: TestClient):
+def test_delete_user(client: TestClient, admin_token_headers: dict):
     create_response = client.post(
         "/user/",
         json={
@@ -102,8 +107,9 @@ def test_delete_user(client: TestClient):
             "first_name": "Delete",
             "last_name": "Me",
         },
+        headers=admin_token_headers
     )
     user_id = create_response.json()["id"]
 
-    response = client.delete(f"/user/{user_id}")
+    response = client.delete(f"/user/{user_id}", headers=admin_token_headers)
     assert response.status_code == status.HTTP_200_OK
