@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import col, func, select
+from sqlmodel import select
 
 from api.deps import (
     SessionDep,
@@ -7,7 +7,6 @@ from api.deps import (
 )
 from crud import category as category_crud
 from models.base import Message
-from models.categories_public import CategoriesPublic
 from models.category import Category
 from models.category_create import CategoryCreate
 from models.category_public import CategoryPublic
@@ -62,8 +61,8 @@ def update_category(*, session: SessionDep, category_id: int, category_in: Categ
     db_category = category_crud.update_category(session=session, db_category=db_category, category_in=category_in)
     return db_category
 
-@router.delete("/{category_id}")
-def delete_category(session: SessionDep, category_id: int, dependencies=[Depends(get_current_admin_user)]):
+@router.delete("/{category_id}", dependencies=[Depends(get_current_admin_user)])
+def delete_category(session: SessionDep, category_id: int):
     """
     Delete a category.
     """

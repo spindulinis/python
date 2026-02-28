@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from fastapi import status
 
-def test_read_category(client: TestClient, admin_token_headers: dict):
+def test_read_category(client: TestClient, admin_token_headers: dict[str, str]):
     client.post(
         "/category/",
         json={
@@ -25,7 +25,7 @@ def test_read_category(client: TestClient, admin_token_headers: dict):
     assert result["title"] == "Fruit"
     assert result["description"] == "Fruit category"
 
-def test_read_category_by_id(client: TestClient, admin_token_headers: dict):
+def test_read_category_by_id(client: TestClient, admin_token_headers: dict[str, str]):
     create_response = client.post(
         "/category/",
         json={
@@ -46,7 +46,7 @@ def test_read_category_by_id(client: TestClient, admin_token_headers: dict):
     assert result["title"] == "Fruit"
     assert result["description"] == "Fruit category"
 
-def test_create_category(client: TestClient, admin_token_headers: dict):
+def test_create_category(client: TestClient, admin_token_headers: dict[str, str]):
     response = client.post(
         "/category/",
         json={
@@ -64,7 +64,7 @@ def test_create_category(client: TestClient, admin_token_headers: dict):
     assert result["title"] == "Fruit"
     assert result["description"] == "Fruit category"
 
-def test_update_category(client: TestClient, admin_token_headers: dict):
+def test_update_category(client: TestClient, admin_token_headers: dict[str, str]):
     create_response = client.post(
         "/category/",
         json={
@@ -93,7 +93,7 @@ def test_update_category(client: TestClient, admin_token_headers: dict):
     assert result["title"] == "Fruit 2"
     assert result["description"] == "Fruit category 2"
 
-def test_delete_category(client: TestClient, admin_token_headers: dict):
+def test_delete_category(client: TestClient, admin_token_headers: dict[str, str]):
     create_response = client.post(
         "/category/",
         json={

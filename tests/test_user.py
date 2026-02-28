@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from fastapi import status
 
-def test_read_users(client: TestClient, admin_token_headers: dict):
+def test_read_users(client: TestClient, admin_token_headers: dict[str, str]):
     client.post(
         "/user/",
         json={
@@ -26,7 +26,7 @@ def test_read_users(client: TestClient, admin_token_headers: dict):
     assert result["first_name"] == "John"
     assert result["last_name"] == "Doe"
 
-def test_read_user_by_id(client: TestClient, admin_token_headers: dict):
+def test_read_user_by_id(client: TestClient, admin_token_headers: dict[str, str]):
     create_response = client.post(
         "/user/",
         json={
@@ -48,7 +48,7 @@ def test_read_user_by_id(client: TestClient, admin_token_headers: dict):
     assert result["first_name"] == "John"
     assert result["last_name"] == "Doe"
 
-def test_create_user(client: TestClient, admin_token_headers: dict):
+def test_create_user(client: TestClient, admin_token_headers: dict[str, str]):
     response = client.post(
         "/user/",
         json={
@@ -67,7 +67,7 @@ def test_create_user(client: TestClient, admin_token_headers: dict):
     assert result["first_name"] == "John"
     assert result["last_name"] == "Doe"
 
-def test_update_user(client: TestClient, admin_token_headers: dict):
+def test_update_user(client: TestClient, admin_token_headers: dict[str, str]):
     create_response = client.post(
         "/user/",
         json={
@@ -98,7 +98,7 @@ def test_update_user(client: TestClient, admin_token_headers: dict):
     assert result["first_name"] == "John2"
     assert result["last_name"] == "Doe2"
 
-def test_delete_user(client: TestClient, admin_token_headers: dict):
+def test_delete_user(client: TestClient, admin_token_headers: dict[str, str]):
     create_response = client.post(
         "/user/",
         json={

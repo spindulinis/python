@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from fastapi import status
 
-def test_read_products(client: TestClient, admin_token_headers: dict):
+def test_read_products(client: TestClient, admin_token_headers: dict[str, str]):
     client.post(
         "/product/",
         json={
@@ -23,7 +23,7 @@ def test_read_products(client: TestClient, admin_token_headers: dict):
     assert result["title"] == "Star Wars"
     assert result["description"] == "Movie about space wars"
 
-def test_read_product_by_id(client: TestClient, admin_token_headers: dict):
+def test_read_product_by_id(client: TestClient, admin_token_headers: dict[str, str]):
     create_response = client.post(
         "/product/",
         json={

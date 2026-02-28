@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import col, func, select
+from sqlmodel import select
 
 from api.deps import (
     SessionDep,

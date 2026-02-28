@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from fastapi import status
 
-def test_read_attribute(client: TestClient, admin_token_headers: dict):
+def test_read_attribute(client: TestClient, admin_token_headers: dict[str, str]):
     client.post(
         "/attribute/",
         json={
@@ -21,7 +21,7 @@ def test_read_attribute(client: TestClient, admin_token_headers: dict):
     assert isinstance(result["id"], int)
     assert result["title"] == "Color"
 
-def test_read_attribute_by_id(client: TestClient, admin_token_headers: dict):
+def test_read_attribute_by_id(client: TestClient, admin_token_headers: dict[str, str]):
     create_response = client.post(
         "/attribute/",
         json={
@@ -38,7 +38,7 @@ def test_read_attribute_by_id(client: TestClient, admin_token_headers: dict):
     assert result["id"] == attribute_id
     assert result["title"] == "Color"
 
-def test_create_attribute(client: TestClient, admin_token_headers: dict):
+def test_create_attribute(client: TestClient, admin_token_headers: dict[str, str]):
     response = client.post(
         "/attribute/",
         json={
@@ -52,7 +52,7 @@ def test_create_attribute(client: TestClient, admin_token_headers: dict):
     assert isinstance(result["id"], int)
     assert result["title"] == "Color"
 
-def test_update_attribute(client: TestClient, admin_token_headers: dict):
+def test_update_attribute(client: TestClient, admin_token_headers: dict[str, str]):
     create_response = client.post(
         "/attribute/",
         json={
@@ -75,7 +75,7 @@ def test_update_attribute(client: TestClient, admin_token_headers: dict):
     assert isinstance(result["id"], int)
     assert result["title"] == "Color 2"
 
-def test_delete_attribute(client: TestClient, admin_token_headers: dict):
+def test_delete_attribute(client: TestClient, admin_token_headers: dict[str, str]):
     create_response = client.post(
         "/attribute/",
         json={
